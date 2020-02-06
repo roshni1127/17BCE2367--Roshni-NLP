@@ -1,0 +1,158 @@
+import nltk
+from nltk.stem import SnowballStemmer
+from nltk.stem import PorterStemmer
+from nltk.stem import LancasterStemmer
+from nltk.stem import RegexpStemmer
+
+sb = SnowballStemmer('english')
+ps = PorterStemmer()
+ls = LancasterStemmer()
+rs = RegexpStemmer('^un|^re|ing$|s$|ed$|er$',min=4)
+
+print(sb.stem('unwanted'))
+> unwant
+
+len(SnowballStemmer.languages)
+> 16
+
+print(ps.stem('unwanted'))
+> unwant
+
+print(ls.stem('unwanted'))
+> unw
+
+print(rs.stem('unwanted'))
+> want
+
+
+text = """In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used before final copy is available, but it may also be used to temporarily replace copy in a process called greeking, which allows designers to consider form without the meaning of the text influencing the design.
+Lorem ipsum is typically a corrupted version of De finibus bonorum et malorum, a first-century BCE text by Cicero, with words altered, added, and removed to make it nonsensical, improper Latin."""
+
+from nltk.stem import PorterStemmer
+stemmer = PorterStemmer()
+text = [stemmer.stem(token) for token in text.split(" ")]
+print(" ".join(text))
+
+> In publish and graphic design, lorem ipsum is a placehold text commonli use to demonstr the visual form of a document or a typefac without reli on meaning content. lorem ipsum may be use befor final copi is available, but it may also be use to temporarili replac copi in a process call greeking, which allow design to consid form without the mean of the text influenc the design.
+lorem ipsum is typic a corrupt version of De finibu bonorum et malorum, a first-centuri bce text by cicero, with word altered, added, and remov to make it nonsensical, improp latin.
+
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+
+
+print(lemmatizer.lemmatize("feet"))
+> foot
+
+print(lemmatizer.lemmatize("toes"))
+> toe
+
+for i in text:
+  print(lemmatizer.lemmatize(i))
+In
+publish
+and
+graphic
+design,
+lorem
+ipsum
+is
+a
+placehold
+text
+commonli
+use
+to
+demonstr
+the
+visual
+form
+of
+a
+document
+or
+a
+typefac
+without
+reli
+on
+meaning
+content.
+lorem
+ipsum
+may
+be
+use
+befor
+final
+copi
+is
+available,
+but
+it
+may
+also
+be
+use
+to
+temporarili
+replac
+copi
+in
+a
+process
+call
+greeking,
+which
+allow
+design
+to
+consid
+form
+without
+the
+mean
+of
+the
+text
+influenc
+the
+design.
+lorem
+ipsum
+is
+typic
+a
+corrupt
+version
+of
+De
+finibu
+bonorum
+et
+malorum,
+a
+first-centuri
+bce
+text
+by
+cicero,
+with
+word
+altered,
+added,
+and
+remov
+to
+make
+it
+nonsensical,
+improp
+latin.
+
+
+from sklearn.feature_extraction.text import CountVectorizer
+vectorizer = CountVectorizer()
+
+x = vectorizer.fit_transform(text)
+print(vectorizer.get_feature_names())
+['added', 'allow', 'also', 'altered', 'and', 'available', 'bce', 'be', 'befor', 'bonorum', 'but', 'by', 'call', 'centuri', 'cicero', 'commonli', 'consid', 'content', 'copi', 'corrupt', 'de', 'demonstr', 'design', 'document', 'et', 'final', 'finibu', 'first', 'form', 'graphic', 'greeking', 'improp', 'in', 'influenc', 'ipsum', 'is', 'it', 'latin', 'lorem', 'make', 'malorum', 'may', 'mean', 'meaning', 'nonsensical', 'of', 'on', 'or', 'placehold', 'process', 'publish', 'reli', 'remov', 'replac', 'temporarili', 'text', 'the', 'to', 'typefac', 'typic', 'use', 'version', 'visual', 'which', 'with', 'without', 'word']
